@@ -1,0 +1,1 @@
+{"_id":"2025-12-01","date":{"$date":"2025-12-01T00:00:00Z"},"total_events":423,"top_downloads":[{"resource_id":3,"title":"Machine Learning for Engineers","count":120},{"resource_id":1,"title":"Introduction to Databases","count":90}],"top_search_terms":[{"query":"AI","count":50},{"query":"Databases","count":30}]}
