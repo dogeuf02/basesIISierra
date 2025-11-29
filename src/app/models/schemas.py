@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field, ConfigDict
 
 
 # ======================================================
-# PROGRAM & USER (por si los necesitas luego)
+# PROGRAM & USER
 # ======================================================
 
 class ProgramOut(BaseModel):
@@ -105,7 +105,7 @@ class ReviewOut(BaseModel):
 
 
 # ======================================================
-# (Opcional futuro) MODELOS PARA STATS
+#  MODELOS PARA STATS
 # ======================================================
 
 class DailyStatsOut(BaseModel):
@@ -113,3 +113,30 @@ class DailyStatsOut(BaseModel):
     total_events: int
     top_downloads: list
     top_search_terms: list
+
+
+# ======================================================
+# LOG EVENTS (Mongo)
+# ======================================================
+
+class LogMetadata(BaseModel):
+    ip: str
+    device: str
+
+
+class LogEventIn(BaseModel):
+    type: str  # search, download, view
+    user_id: int
+    resource_id: Optional[int] = None
+    query: Optional[str] = None
+    metadata: LogMetadata
+
+
+class LogEventOut(BaseModel):
+    id: str
+    type: str
+    user_id: int
+    resource_id: Optional[int]
+    query: Optional[str]
+    timestamp: datetime
+    metadata: LogMetadata
