@@ -140,3 +140,15 @@ class LogEventOut(BaseModel):
     query: Optional[str]
     timestamp: datetime
     metadata: LogMetadata
+
+# ======================================================
+# SEARCH INDEX
+# ======================================================
+
+class SearchResultOut(BaseModel):
+    resource_id: int
+    title: str
+    authors: List[str]
+    categories: List[str]
+    keywords: List[str]
+    year: int
