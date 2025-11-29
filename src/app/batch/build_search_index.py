@@ -32,3 +32,6 @@ def build_search_index():
         collection.insert_many(docs)
 
     print(f"Indexed {len(docs)} resources.")
+    
+if __name__ == "__main__":
+    build_search_index() 

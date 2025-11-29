@@ -96,6 +96,17 @@ CREATE TABLE review (
         FOREIGN KEY (user_id) REFERENCES app_user(user_id)
 );
 
+-- ============================
+-- 9. DW Daily Stats
+-- ============================
+CREATE TABLE IF NOT EXISTS daily_stats (
+    date DATE PRIMARY KEY,
+    total_events INTEGER NOT NULL,
+    top_search_terms JSONB NOT NULL,
+    top_downloads JSONB NOT NULL
+);
+
+
 
 -- =======================================
 -- ResourceKeyword (N:M Resource ↔ Keyword)

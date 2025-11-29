@@ -1,9 +1,10 @@
 from sqlalchemy import (
     Column, Integer, String, Text, SmallInteger, ForeignKey, Date, TIMESTAMP,
-    Table, text)
+    Table, text, Date, JSON)
 
 from sqlalchemy.orm import relationship
 from app.sql.database import Base
+
 
 # ======================================================
 # Secondary Tables (N:M)
@@ -176,3 +177,15 @@ class Review(Base):
 
     resource = relationship("Resource", back_populates="reviews", lazy="select")
     user = relationship("AppUser", back_populates="reviews", lazy="select")
+
+# ======================================================
+# DW_DailyStats
+# ======================================================
+
+class DailyStats(Base):
+    __tablename__ = "daily_stats"
+
+    date = Column(Date, primary_key=True)
+    total_events = Column(Integer, nullable=False)
+    top_search_terms = Column(JSON, nullable=False)
+    top_downloads = Column(JSON, nullable=False)
