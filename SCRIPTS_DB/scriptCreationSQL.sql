@@ -37,18 +37,24 @@ CREATE TABLE license (
 -- 4. Resources (digital items)
 -- ============================
 CREATE TABLE resource (
-    resource_id     SERIAL PRIMARY KEY,
-    title           VARCHAR(255) NOT NULL,
-    description     TEXT         NULL,
-    publication_year SMALLINT    NULL,
-    resource_type   VARCHAR(40)  NOT NULL DEFAULT 'book', -- 'book', 'article', 'thesis', etc.
-    language        VARCHAR(40)  NULL,
-    license_id      INTEGER      NULL,
-    created_at      TIMESTAMP    NOT NULL DEFAULT NOW(),
+    resource_id      SERIAL PRIMARY KEY,
+    title            VARCHAR(255) NOT NULL,
+    description      TEXT         NULL,
+    publication_year SMALLINT     NULL,
+    resource_type    VARCHAR(40)  NOT NULL DEFAULT 'book', -- 'book', 'article', 'thesis', etc.
+    language         VARCHAR(40)  NULL,
+    license_id       INTEGER      NULL,
+    created_at       TIMESTAMP    NOT NULL DEFAULT NOW(),
+
+    -- NUEVAS COLUMNAS PARA EL ARCHIVO FÍSICO
+    file_path        VARCHAR(255) NULL,
+    file_type        VARCHAR(40)  NULL,
+    file_size        INTEGER      NULL,
 
     CONSTRAINT fk_resource_license
         FOREIGN KEY (license_id) REFERENCES license(license_id)
 );
+
 
 -- ============================
 -- 5. Authors

@@ -105,7 +105,15 @@ class Resource(Base):
     TIMESTAMP,
     nullable=False,
     server_default=text("NOW()")
-)
+    )
+    
+    # ================================
+    # Files information
+    # ================================
+    file_path = Column(String, nullable=True)
+    file_type = Column(String, nullable=True)   # pdf, epub, docx, etc.
+    file_size = Column(Integer, nullable=True)  #  bytes 
+
 
 
     # Relationships

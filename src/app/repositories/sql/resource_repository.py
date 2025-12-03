@@ -82,3 +82,19 @@ class ResourceRepository:
         self.db.refresh(new_review)
 
         return new_review
+    # ----------------------------------------
+    # POST /resources/{id}/reviews
+    # ----------------------------------------
+    def update_file_info(self, resource_id: int, file_path: str, file_type: str, file_size: int):
+            resource = self.db.query(Resource).filter_by(resource_id=resource_id).first()
+            if not resource:
+                return None
+            
+            resource.file_path = file_path
+            resource.file_type = file_type
+            resource.file_size = file_size
+
+            self.db.commit()
+            self.db.refresh(resource)
+
+            return resource

@@ -1,6 +1,6 @@
 # src/app/api/stats.py
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.orm import Session
 from datetime import date
 
@@ -25,7 +25,14 @@ def get_latest_stats(db: Session = Depends(get_db)):
 
 
 @router.get("/{date}")
-def get_stats_by_date(date: date, db: Session = Depends(get_db)):
+def get_stats_by_date(
+    date: date = Path(
+        ...,
+        description="Format date: YYYY-MM-DD",
+        example="2025-01-01", 
+    ),
+    db: Session = Depends(get_db),
+):
     repo = DailyStatsRepository(db)
     stats = repo.get_by_date(date)
     if not stats:

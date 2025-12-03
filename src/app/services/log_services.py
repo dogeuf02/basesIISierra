@@ -3,6 +3,7 @@
 from typing import List
 from app.models.schemas import LogEventIn
 from app.repositories.nosql.log_repository import LogRepository
+from app.models.schemas import LogEvent
 
 
 class LogService:
@@ -17,8 +18,10 @@ class LogService:
 
         return self.repo.insert_log(event)
 
-    def get_logs_for_user(self, user_id: int) -> List[dict]:
-        return self.repo.get_logs_by_user(user_id)
+    def get_logs_by_user(self, user_id: int):
+        docs = self.repo.get_logs_by_user(user_id)
+        return [LogEvent(**doc) for doc in docs]
 
-    def get_logs_for_resource(self, resource_id: int) -> List[dict]:
-        return self.repo.get_logs_by_resource(resource_id)
+    def get_logs_by_resource(self, resource_id: int):
+        docs = self.repo.get_logs_by_resource(resource_id)
+        return [LogEvent(**doc) for doc in docs]

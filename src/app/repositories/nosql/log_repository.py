@@ -33,16 +33,21 @@ class LogRepository:
     # ---------------------------------------------------
     # QUERY BY USER
     # ---------------------------------------------------
-    def get_logs_by_user(self, user_id: int) -> List[dict]:
-        logs = list(self.collection.find({"user_id": user_id}))
-        return self._format_logs(logs)
-
+    def get_logs_by_user(self, user_id: int):
+        cursor = self.collection.find(
+            {"user_id": user_id},
+            {"_id": 0}   # quitamos el ObjectId
+        )
+        return list(cursor)
     # ---------------------------------------------------
     # QUERY BY RESOURCE
     # ---------------------------------------------------
-    def get_logs_by_resource(self, resource_id: int) -> List[dict]:
-        logs = list(self.collection.find({"resource_id": resource_id}))
-        return self._format_logs(logs)
+    def get_logs_by_resource(self, resource_id: int):
+        cursor = self.collection.find(
+            {"resource_id": resource_id},
+            {"_id": 0}
+        )
+        return list(cursor)
 
     # ---------------------------------------------------
     # FORMAT for API

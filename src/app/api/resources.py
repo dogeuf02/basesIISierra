@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, UploadFile, File, Query, Request
 from sqlalchemy.orm import Session
 
 from app.sql.database import get_db
@@ -94,3 +94,45 @@ def add_review(
         rating=review_in.rating,
         comment=review_in.comment
     )
+    
+@router.post("/{resource_id}/upload")
+async def upload_resource_file(
+    resource_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+    service = ResourceService(db)
+    updated_resource = await service.upload_file(resource_id, file)
+    return updated_resource
+
+@router.get("/{resource_id}/file")
+def download_resource_file(
+    resource_id: int,
+    user_id: int = Query(None),   # opcional
+    request: Request = None,
+    db: Session = Depends(get_db),
+):
+    service = ResourceService(db)
+
+    # Obtener IP y user-agent
+    client_ip = request.client.host if request and request.client else None
+    user_agent = request.headers.get("user-agent", "unknown") if request else "unknown"
+
+    # Clasificación muy simple de dispositivo
+    ua_lower = user_agent.lower()
+    if "mobile" in ua_lower:
+        device = "mobile"
+    elif "tablet" in ua_lower or "ipad" in ua_lower:
+        device = "tablet"
+    elif "windows" in ua_lower or "macintosh" in ua_lower or "linux" in ua_lower:
+        device = "desktop"
+    else:
+        device = "other"
+
+    metadata = {
+        "ip": client_ip,
+        "user_agent": user_agent,
+        "device": device,
+    }
+
+    return service.download_file(resource_id, user_id, metadata)

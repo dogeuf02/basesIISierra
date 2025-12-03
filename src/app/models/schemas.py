@@ -42,6 +42,9 @@ class ResourceOut(BaseModel):
     language: Optional[str] = None
     license_id: Optional[int] = None
     created_at: datetime
+    file_path: Optional[str] = None
+    file_type: Optional[str] = None
+    file_size: Optional[int] = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -120,8 +123,10 @@ class DailyStatsOut(BaseModel):
 # ======================================================
 
 class LogMetadata(BaseModel):
-    ip: str
-    device: str
+    ip: Optional[str] = None
+    device: Optional[str] = None
+    user_agent: Optional[str] = None
+    source: Optional[str] = None
 
 
 class LogEventIn(BaseModel):
@@ -129,7 +134,7 @@ class LogEventIn(BaseModel):
     user_id: int
     resource_id: Optional[int] = None
     query: Optional[str] = None
-    metadata: LogMetadata
+    metadata: Optional[LogMetadata] = None
 
 
 class LogEventOut(BaseModel):
@@ -139,7 +144,20 @@ class LogEventOut(BaseModel):
     resource_id: Optional[int]
     query: Optional[str]
     timestamp: datetime
-    metadata: LogMetadata
+
+    # Always provide metadata, even if empty in BD
+    metadata: LogMetadata = Field(default_factory=LogMetadata)
+    
+class LogEvent(BaseModel):
+    type: str
+    user_id: Optional[int] = None
+    resource_id: Optional[int] = None
+    query: Optional[str] = None
+    timestamp: datetime
+    metadata: Optional[LogMetadata] = None
+
+    class Config:
+        orm_mode = True
 
 # ======================================================
 # SEARCH INDEX
