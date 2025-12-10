@@ -38,4 +38,24 @@ export const resourcesService = {
     const { data } = await api.post<Review>(`/resources/${resourceId}/reviews`, review);
     return data;
   },
+
+  async uploadFile(resourceId: number, file: File): Promise<Resource> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const { data } = await api.post<Resource>(`/resources/${resourceId}/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return data;
+  },
+
+  async downloadFile(resourceId: number, userId?: number): Promise<Blob> {
+    const params = userId ? { user_id: userId } : {};
+    const { data } = await api.get<Blob>(`/resources/${resourceId}/file`, {
+      params,
+      responseType: 'blob',
+    });
+    return data;
+  },
 };

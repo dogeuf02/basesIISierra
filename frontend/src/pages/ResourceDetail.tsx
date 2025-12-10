@@ -4,6 +4,7 @@ import { useState } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { resourcesService } from '../services/resources';
+import { logsService } from '../services/logs';
 import {
   Calendar,
   BookOpen,
@@ -13,6 +14,9 @@ import {
   Star,
   ArrowLeft,
   Users,
+  Download,
+  Upload,
+  File as FileIcon,
 } from 'lucide-react';
 import type { ReviewInput } from '../types';
 
@@ -22,7 +26,13 @@ export default function ResourceDetail() {
   const queryClient = useQueryClient();
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState('');
-  const [userId, setUserId] = useState(1); // En producción, esto vendría de autenticación
+  const [userId] = useState(1); // En producción, esto vendría de autenticación
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const { data: resource, isLoading, error } = useQuery({
     queryKey: ['resource', resourceId],
@@ -63,6 +73,18 @@ export default function ResourceDetail() {
     },
   });
 
+  const uploadMutation = useMutation({
+    mutationFn: (file: File) => resourcesService.uploadFile(resourceId, file),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['resource', resourceId] });
+      setUploadFile(null);
+      setIsUploading(false);
+    },
+    onError: () => {
+      setIsUploading(false);
+    },
+  });
+
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault();
     reviewMutation.mutate({
@@ -70,6 +92,69 @@ export default function ResourceDetail() {
       rating: reviewRating,
       comment: reviewComment || undefined,
     });
+  };
+
+  const handleUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!uploadFile) return;
+
+    setIsUploading(true);
+    try {
+      await uploadMutation.mutateAsync(uploadFile);
+      // Log upload event
+      await logsService.logEvent({
+        type: 'view', // o 'upload' dependiendo de cómo esté configurado
+        user_id: userId,
+        resource_id: resourceId,
+        metadata: {
+          ip: 'unknown',
+          device: navigator.userAgent,
+        },
+      });
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!resource?.file_path) return;
+
+    setIsDownloading(true);
+    try {
+      const blob = await resourcesService.downloadFile(resourceId, userId);
+      
+      // Crear URL temporal para el blob
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = resource.title + (resource.file_type ? `.${resource.file_type}` : '');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      // Log download event
+      await logsService.logEvent({
+        type: 'download',
+        user_id: userId,
+        resource_id: resourceId,
+        metadata: {
+          ip: 'unknown',
+          device: navigator.userAgent,
+        },
+      });
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  const formatFileSize = (bytes?: number): string => {
+    if (!bytes) return '';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -193,6 +278,90 @@ export default function ResourceDetail() {
                 </div>
               </div>
             )}
+
+            {/* File Section */}
+            <div className="mb-8 border-t border-gray-200 pt-8">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <FileIcon className="h-5 w-5 mr-2" />
+                Archivo del Recurso
+              </h3>
+              
+              {resource.file_path ? (
+                <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <FileIcon className="h-8 w-8 text-primary-600" />
+                      <div>
+                        <p className="font-medium text-gray-900">
+                          {resource.title}
+                          {resource.file_type && `.${resource.file_type}`}
+                        </p>
+                        {resource.file_size && (
+                          <p className="text-sm text-gray-500">
+                            Tamaño: {formatFileSize(resource.file_size)}
+                          </p>
+                        )}
+                        {resource.file_type && (
+                          <p className="text-sm text-gray-500">
+                            Tipo: {resource.file_type.toUpperCase()}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleDownload}
+                      disabled={isDownloading}
+                      className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <Download className="h-5 w-5 mr-2" />
+                      {isDownloading ? 'Descargando...' : 'Descargar'}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-gray-500 mb-4">
+                  No hay archivo disponible para este recurso.
+                </p>
+              )}
+
+              {/* Upload File Form */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h4 className="text-md font-semibold text-gray-900 mb-3">
+                  Subir o Reemplazar Archivo
+                </h4>
+                <form onSubmit={handleUpload} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Seleccionar archivo
+                    </label>
+                    <input
+                      type="file"
+                      onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+                      className="block w-full text-sm text-gray-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-lg file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-primary-50 file:text-primary-700
+                        hover:file:bg-primary-100"
+                      accept=".pdf,.epub,.doc,.docx,.txt"
+                    />
+                    {uploadFile && (
+                      <p className="mt-2 text-sm text-gray-600">
+                        Archivo seleccionado: {uploadFile.name} ({formatFileSize(uploadFile.size)})
+                      </p>
+                    )}
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={!uploadFile || isUploading}
+                    className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <Upload className="h-5 w-5 mr-2" />
+                    {isUploading ? 'Subiendo...' : 'Subir Archivo'}
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
 

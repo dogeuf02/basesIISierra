@@ -7,6 +7,9 @@ export interface Resource {
   language?: string;
   license_id?: number;
   created_at: string;
+  file_path?: string;
+  file_type?: string;
+  file_size?: number;
 }
 
 export interface Author {

@@ -17,7 +17,8 @@ export default function Resources() {
     queryFn: () => resourcesService.getAll(skip, ITEMS_PER_PAGE),
   });
 
-  const totalPages = resources ? Math.ceil(resources.length / ITEMS_PER_PAGE) : 0;
+  // Determinar si hay más páginas basándose en si recibimos menos items de los solicitados
+  const hasMore = resources ? resources.length === ITEMS_PER_PAGE : false;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -48,23 +49,30 @@ export default function Resources() {
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-center items-center space-x-2">
+            <div className="flex justify-center items-center space-x-4 mt-8">
               <button
                 onClick={() => setPage((p) => Math.max(0, p - 1))}
                 disabled={page === 0}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                Anterior
+                ← Anterior
               </button>
-              <span className="text-sm text-gray-700">
-                Página {page + 1}
-              </span>
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-700 font-medium">
+                  Página {page + 1}
+                </span>
+                {resources && (
+                  <span className="text-sm text-gray-500">
+                    ({resources.length} recursos)
+                  </span>
+                )}
+              </div>
               <button
                 onClick={() => setPage((p) => p + 1)}
-                disabled={!resources || resources.length < ITEMS_PER_PAGE}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!hasMore}
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                Siguiente
+                Siguiente →
               </button>
             </div>
           </>
