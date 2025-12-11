@@ -1,159 +1,184 @@
-# Biblioteca Digital Universitaria
+University Digital Library
 
-Sistema completo de gestión de recursos académicos digitales con backend en FastAPI y frontend en React + TypeScript.
+Complete system for managing digital academic resources with a FastAPI backend and a React + TypeScript frontend.
 
-## 📋 Tabla de Contenidos
+Table of Contents
 
-- [Características](#características)
-- [Tecnologías](#tecnologías)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Requisitos Previos](#requisitos-previos)
-- [Instalación](#instalación)
-- [Configuración](#configuración)
-- [Uso](#uso)
-- [API Endpoints](#api-endpoints)
-- [Frontend](#frontend)
-- [Estructura de Base de Datos](#estructura-de-base-de-datos)
+Features
 
-## ✨ Características
+Technologies
 
-### Backend
-- **API RESTful** completa con FastAPI
-- **Base de datos PostgreSQL** para datos estructurados
-- **MongoDB** para búsqueda de texto completo y logs
-- **Sistema de búsqueda** avanzado con índice de texto
-- **Estadísticas diarias** automatizadas
-- **Sistema de logs** de eventos
-- **Reseñas y calificaciones** de recursos
-- **Arquitectura limpia** con separación de capas (API, Servicios, Repositorios)
+Project Structure
 
-### Frontend
-- **Interfaz moderna y responsive** con Tailwind CSS
-- **Búsqueda en tiempo real** de recursos
-- **Visualización de estadísticas** y métricas
-- **Sistema de reseñas** interactivo
-- **Navegación intuitiva** entre categorías y recursos
-- **Diseño adaptable** para móviles y tablets
-- **Manejo de estado** eficiente con React Query
+Prerequisites
 
-## 🛠 Tecnologías
+Installation
 
-### Backend
-- **Python 3.13+**
-- **FastAPI** - Framework web moderno y rápido
-- **SQLAlchemy** - ORM para PostgreSQL
-- **Pymongo** - Driver para MongoDB
-- **Pydantic** - Validación de datos
-- **Poetry** - Gestión de dependencias
-- **PostgreSQL** - Base de datos relacional
-- **MongoDB** - Base de datos NoSQL para búsqueda y logs
+Configuration
 
-### Frontend
-- **React 19** - Biblioteca de UI
-- **TypeScript** - Tipado estático
-- **Vite** - Build tool y dev server
-- **Tailwind CSS** - Framework de estilos
-- **React Router** - Enrutamiento
-- **React Query** - Manejo de estado del servidor
-- **Axios** - Cliente HTTP
-- **Lucide React** - Iconos modernos
+Usage
 
-## 📁 Estructura del Proyecto
+API Endpoints
 
-```
+Frontend
+
+Database Structure
+
+Features
+Backend
+
+Full RESTful API with FastAPI
+
+PostgreSQL database for structured data
+
+MongoDB for full-text search and logs
+
+Advanced search system with text indexing
+
+Automated daily statistics
+
+Event logging system
+
+Resource reviews and ratings
+
+Clean architecture with separation of layers (API, Services, Repositories)
+
+Frontend
+
+Modern and responsive interface with Tailwind CSS
+
+Real-time search of resources
+
+Statistics and metrics visualization
+
+Interactive review system
+
+Intuitive navigation between categories and resources
+
+Adaptive design for mobile and tablets
+
+Efficient state management with React Query
+
+Technologies
+Backend
+
+Python 3.13+
+
+FastAPI – Modern and fast web framework
+
+SQLAlchemy – ORM for PostgreSQL
+
+Pymongo – MongoDB driver
+
+Pydantic – Data validation
+
+Poetry – Dependency management
+
+PostgreSQL – Relational database
+
+MongoDB – NoSQL database for search and logs
+
+Frontend
+
+React 19 – UI library
+
+TypeScript – Static typing
+
+Vite – Build tool and dev server
+
+Tailwind CSS – Styling framework
+
+React Router – Routing
+
+React Query – Server state management
+
+Axios – HTTP client
+
+Lucide React – Modern icons
+
+Project Structure
 basesIISierra/
-├── frontend/                  # Aplicación React
+├── frontend/                  # React application
 │   ├── src/
-│   │   ├── components/       # Componentes reutilizables
-│   │   ├── pages/            # Páginas principales
-│   │   ├── services/         # Servicios API
-│   │   ├── types/            # Tipos TypeScript
-│   │   ├── App.tsx           # Componente principal
-│   │   └── main.tsx          # Punto de entrada
+│   │   ├── components/       # Reusable components
+│   │   ├── pages/            # Main pages
+│   │   ├── services/         # API services
+│   │   ├── types/            # TypeScript types
+│   │   ├── App.tsx           # Main component
+│   │   └── main.tsx          # Entry point
 │   ├── package.json
 │   └── vite.config.ts
 ├── src/
 │   └── app/
-│       ├── api/              # Endpoints de la API
-│       ├── models/           # Modelos de datos
-│       ├── repositories/     # Acceso a datos
-│       ├── services/         # Lógica de negocio
-│       ├── sql/              # Configuración SQL
-│       ├── nosql/            # Configuración MongoDB
-│       ├── batch/            # Scripts de procesamiento
-│       └── main.py           # Aplicación FastAPI
-├── SCRIPTS_DB/               # Scripts SQL
+│       ├── api/              # API endpoints
+│       ├── models/           # Data models
+│       ├── repositories/     # Data access
+│       ├── services/         # Business logic
+│       ├── sql/              # SQL configuration
+│       ├── nosql/            # MongoDB configuration
+│       ├── batch/            # Processing scripts
+│       └── main.py           # FastAPI application
+├── SCRIPTS_DB/               # SQL scripts
 │   ├── scriptCreationSQL.sql
 │   └── scriptSeedSQL.sql
-├── pyproject.toml            # Configuración Poetry
+├── pyproject.toml            # Poetry configuration
 └── README.md
-```
 
-## 📦 Requisitos Previos
+Prerequisites
 
-- **Python 3.13+**
-- **Node.js 18+** y npm
-- **PostgreSQL 14+**
-- **MongoDB 6+**
-- **Poetry** (para gestión de dependencias Python)
+Python 3.13+
 
-## 🚀 Instalación
+Node.js 18+ and npm
 
-### 1. Clonar el repositorio
+PostgreSQL 14+
 
-```bash
+MongoDB 6+
+
+Poetry (for Python dependency management)
+
+Installation
+1. Clone the repository
 git clone <repository-url>
 cd basesIISierra
-```
 
-### 2. Configurar el Backend
-
-```bash
-# Instalar Poetry si no lo tienes
+2. Configure the Backend
+# Install Poetry if you don't have it
 curl -sSL https://install.python-poetry.org | python3 -
 
-# Instalar dependencias
+# Install dependencies
 poetry install
 
-# Activar el entorno virtual
+# Activate the virtual environment
 poetry shell
-```
 
-### 3. Configurar las Bases de Datos
-
-#### PostgreSQL
-
-```bash
-# Crear base de datos
+3. Configure the Databases
+PostgreSQL
+# Create database
 createdb digital_library
 
-# Ejecutar scripts de creación
+# Run creation scripts
 psql -d digital_library -f SCRIPTS_DB/scriptCreationSQL.sql
 
-# (Opcional) Ejecutar scripts de seed
+# (Optional) Run seed scripts
 psql -d digital_library -f SCRIPTS_DB/scriptSeedSQL.sql
-```
 
-#### MongoDB
+MongoDB
 
-Asegúrate de que MongoDB esté corriendo:
+Make sure MongoDB is running:
 
-```bash
-# En macOS
+# On macOS
 brew services start mongodb-community
 
-# En Linux
+# On Linux
 sudo systemctl start mongod
 
-# Verificar que esté corriendo
+# Verify that it is running
 mongosh
-```
 
-### 4. Configurar Variables de Entorno
+4. Configure Environment Variables
 
-Crea un archivo `.env` en la raíz del proyecto:
+Create a .env file in the project root:
 
-```env
 # PostgreSQL
 PG_HOST=localhost
 PG_PORT=5432
@@ -164,217 +189,237 @@ PG_PASSWORD=postgres
 # MongoDB
 MONGO_URL=mongodb://localhost:27017
 MONGO_DB_NAME=digital_library
-```
 
-### 5. Construir Índice de Búsqueda
-
-```bash
-# Desde el entorno virtual de Poetry
+5. Build Search Index
+# From Poetry's virtual environment
 python -m app.batch.build_search_index
-```
 
-### 6. Configurar el Frontend
-
-```bash
+6. Configure the Frontend
 cd frontend
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Crear archivo .env
+# Create .env file
 echo "VITE_API_URL=http://localhost:8000" > .env
-```
 
-## ⚙️ Configuración
+Configuration
+Backend Environment Variables
 
-### Variables de Entorno Backend
+The backend uses the following environment variables (defined in .env):
 
-El backend utiliza las siguientes variables de entorno (definidas en `.env`):
+PG_HOST: PostgreSQL host (default: localhost)
 
-- `PG_HOST`: Host de PostgreSQL (default: localhost)
-- `PG_PORT`: Puerto de PostgreSQL (default: 5432)
-- `PG_DB`: Nombre de la base de datos (default: digital_library)
-- `PG_USER`: Usuario de PostgreSQL (default: postgres)
-- `PG_PASSWORD`: Contraseña de PostgreSQL (default: postgres)
-- `MONGO_URL`: URL de conexión a MongoDB (default: mongodb://localhost:27017)
-- `MONGO_DB_NAME`: Nombre de la base de datos MongoDB (default: digital_library)
+PG_PORT: PostgreSQL port (default: 5432)
 
-### Variables de Entorno Frontend
+PG_DB: Database name (default: digital_library)
 
-El frontend utiliza:
+PG_USER: PostgreSQL user (default: postgres)
 
-- `VITE_API_URL`: URL del backend API (default: http://localhost:8000)
+PG_PASSWORD: PostgreSQL password (default: postgres)
 
-## 🎮 Uso
+MONGO_URL: MongoDB connection URL (default: mongodb://localhost:27017)
 
-### Iniciar el Backend
+MONGO_DB_NAME: MongoDB database name (default: digital_library)
 
-```bash
-# Desde la raíz del proyecto, con Poetry activado
+Frontend Environment Variables
+
+The frontend uses:
+
+VITE_API_URL: Backend API URL (default: http://localhost:8000
+)
+
+Usage
+Start the Backend
+# From the project root, with Poetry active
 uvicorn src.app.main:app --reload --host 0.0.0.0 --port 8000
-```
 
-O usando el script de Poetry:
 
-```bash
+Or using the Poetry script:
+
 poetry run uvicorn src.app.main:app --reload
-```
 
-El API estará disponible en: `http://localhost:8000`
 
-Documentación interactiva:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
+The API will be available at: http://localhost:8000
 
-### Iniciar el Frontend
+Interactive documentation:
 
-```bash
+Swagger UI: http://localhost:8000/docs
+
+ReDoc: http://localhost:8000/redoc
+
+Start the Frontend
 cd frontend
 npm run dev
-```
 
-El frontend estará disponible en: `http://localhost:5173`
 
-### Scripts de Batch
+The frontend will be available at: http://localhost:5173
 
-```bash
-# Construir índice de búsqueda
+Batch Scripts
+# Build search index
 python -m app.batch.build_search_index
 
-# Generar estadísticas diarias
+# Generate daily statistics
 python -m app.batch.generate_daily_stats
-```
 
-## 📡 API Endpoints
+API Endpoints
+Resources
 
-### Recursos
+GET /resources/ – List all resources
 
-- `GET /resources/` - Listar todos los recursos
-- `GET /resources/{id}` - Obtener un recurso específico
-- `GET /resources/{id}/authors` - Obtener autores de un recurso
-- `GET /resources/{id}/categories` - Obtener categorías de un recurso
-- `GET /resources/{id}/keywords` - Obtener palabras clave de un recurso
-- `GET /resources/{id}/reviews` - Obtener reseñas de un recurso
-- `POST /resources/{id}/reviews` - Añadir una reseña
+GET /resources/{id} – Get a specific resource
 
-### Búsqueda
+GET /resources/{id}/authors – Get resource authors
 
-- `GET /search/?query={query}` - Buscar recursos
+GET /resources/{id}/categories – Get resource categories
 
-### Categorías
+GET /resources/{id}/keywords – Get resource keywords
 
-- `GET /categories/` - Listar todas las categorías
+GET /resources/{id}/reviews – Get resource reviews
 
-### Programas
+POST /resources/{id}/reviews – Add a review
 
-- `GET /programs/` - Listar todos los programas académicos
+Search
 
-### Estadísticas
+GET /search/?query={query} – Search resources
 
-- `GET /stats/latest` - Obtener últimas estadísticas
-- `GET /stats/{date}` - Obtener estadísticas por fecha
+Categories
 
-### Logs
+GET /categories/ – List all categories
 
-- `POST /logs/` - Registrar un evento de log
-- `GET /logs/user/{user_id}` - Obtener logs de un usuario
-- `GET /logs/resource/{resource_id}` - Obtener logs de un recurso
+Programs
 
-## 🎨 Frontend
+GET /programs/ – List all academic programs
 
-### Páginas Principales
+Statistics
 
-1. **Home (`/`)**: Página principal con búsqueda y recursos recientes
-2. **Recursos (`/resources`)**: Lista completa de recursos con paginación
-3. **Detalle de Recurso (`/resources/:id`)**: Información completa de un recurso con reseñas
-4. **Categorías (`/categories`)**: Lista de categorías disponibles
-5. **Estadísticas (`/stats`)**: Métricas y estadísticas de uso
-6. **Búsqueda (`/search?q=query`)**: Resultados de búsqueda
+GET /stats/latest – Get latest statistics
 
-### Componentes Principales
+GET /stats/{date} – Get statistics by date
 
-- `Header`: Navegación principal con menú responsive
-- `SearchBar`: Barra de búsqueda reutilizable
-- `ResourceCard`: Tarjeta de visualización de recurso
-- `Footer`: Pie de página con enlaces
-- `LoadingSpinner`: Indicador de carga
-- `ErrorMessage`: Mensajes de error
-- `EmptyState`: Estados vacíos
+Logs
 
-## 🗄 Estructura de Base de Datos
+POST /logs/ – Register a log event
 
-### PostgreSQL (Datos Estructurados)
+GET /logs/user/{user_id} – Get user logs
 
-- **program**: Programas académicos
-- **app_user**: Usuarios del sistema
-- **license**: Licencias de recursos
-- **resource**: Recursos digitales
-- **author**: Autores
-- **category**: Categorías
-- **keyword**: Palabras clave
-- **review**: Reseñas de recursos
-- **daily_stats**: Estadísticas diarias
-- **resource_author**: Relación N:M recursos-autores
-- **resource_category**: Relación N:M recursos-categorías
-- **resource_keyword**: Relación N:M recursos-palabras clave
+GET /logs/resource/{resource_id} – Get resource logs
 
-### MongoDB (Búsqueda y Logs)
+Frontend
+Main Pages
 
-- **search_index**: Índice de búsqueda de texto completo
-- **log_events**: Eventos de log del sistema
+Home (/): Main page with search and recent resources
 
-## 🔧 Desarrollo
+Resources (/resources): Full resource list with pagination
 
-### Backend
+Resource Detail (/resources/:id): Full resource information with reviews
 
-La aplicación sigue una arquitectura de capas:
+Categories (/categories): List of available categories
 
-```
+Statistics (/stats): Usage metrics and statistics
+
+Search (/search?q=query): Search results
+
+Main Components
+
+Header: Main navigation with responsive menu
+
+SearchBar: Reusable search bar
+
+ResourceCard: Resource display card
+
+Footer: Footer with links
+
+LoadingSpinner: Loading indicator
+
+ErrorMessage: Error messages
+
+EmptyState: Empty state messages
+
+Database Structure
+PostgreSQL (Structured Data)
+
+program: Academic programs
+
+app_user: System users
+
+license: Resource licenses
+
+resource: Digital resources
+
+author: Authors
+
+category: Categories
+
+keyword: Keywords
+
+review: Resource reviews
+
+daily_stats: Daily statistics
+
+resource_author: N:M relation resources-authors
+
+resource_category: N:M relation resources-categories
+
+resource_keyword: N:M relation resources-keywords
+
+MongoDB (Search and Logs)
+
+search_index: Full-text search index
+
+log_events: System log events
+
+Development
+Backend
+
+The application follows a layered architecture:
+
 API Layer (api/) → Service Layer (services/) → Repository Layer (repositories/) → Database
-```
 
-### Frontend
+Frontend
 
-El frontend utiliza:
+The frontend uses:
 
-- **React Query** para el manejo del estado del servidor
-- **React Router** para navegación
-- **Tailwind CSS** para estilos
-- **TypeScript** para type safety
+React Query for server state management
 
-### Ejecutar Tests
+React Router for navigation
 
-```bash
-# Backend (si hay tests configurados)
+Tailwind CSS for styles
+
+TypeScript for type safety
+
+Run Tests
+# Backend (if tests are configured)
 poetry run pytest
 
 # Frontend
 cd frontend
 npm test
-```
 
-## 📝 Notas Adicionales
+Additional Notes
 
-- El sistema requiere que el índice de búsqueda de MongoDB esté construido antes de usar la búsqueda
-- Las estadísticas diarias deben generarse mediante el script batch correspondiente
-- CORS está configurado para permitir conexiones desde `localhost:5173` y `localhost:3000`
+The system requires the MongoDB search index to be built before using the search feature
 
-## 🤝 Contribución
+Daily statistics must be generated using the corresponding batch script
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+CORS is configured to allow connections from localhost:5173 and localhost:3000
 
-## 📄 Licencia
+Contribution
 
-Este proyecto es parte de un curso académico.
+Fork the project
 
-## 👨‍💻 Autor
+Create a branch for your feature (git checkout -b feature/AmazingFeature)
+
+Commit your changes (git commit -m 'Add some AmazingFeature')
+
+Push to the branch (git push origin feature/AmazingFeature)
+
+Open a Pull Request
+
+License
+
+This project is part of an academic course.
+
+Author
 
 David Muñoz - dsmunoza@udistrital.edu.co
-
----
-
-**Nota**: Asegúrate de tener todas las bases de datos corriendo y configuradas antes de iniciar la aplicación.
