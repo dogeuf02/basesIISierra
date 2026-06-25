@@ -30,9 +30,8 @@ export default function ResourceDetail() {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
+
+  
 
   const { data: resource, isLoading, error } = useQuery({
     queryKey: ['resource', resourceId],
