@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import MainLayout from '@/components/MainLayout';
 import SearchBar from '@/components/SearchBar';
@@ -104,9 +104,7 @@ export default function SearchPage() {
           </div>
         </div>
 
-        <Suspense fallback={<LoadingSpinner />}>
-          <SearchResults />
-        </Suspense>
+        <SearchResults />
       </div>
     </MainLayout>
   );
