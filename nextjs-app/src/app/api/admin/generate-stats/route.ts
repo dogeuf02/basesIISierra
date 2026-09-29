@@ -28,9 +28,9 @@ export async function POST() {
       }, {}) || {};
 
     const topSearchTerms = Object.entries(searchTerms)
-      .sort(([, a]: [string, number], [, b]: [string, number]) => b - a)
+      .sort((a, b) => (b[1] as number) - (a[1] as number))
       .slice(0, 5)
-      .map(([term, count]) => ({ term, count }));
+      .map(([term, count]) => ({ term, count: count as number }));
 
     // 3. Top descargas
     const downloads = logs
@@ -42,7 +42,7 @@ export async function POST() {
       }, {}) || {};
 
     const topDownloadIds = Object.entries(downloads)
-      .sort(([, a]: [string, number], [, b]: [string, number]) => b - a)
+      .sort((a, b) => (b[1] as number) - (a[1] as number))
       .slice(0, 5);
 
     // Obtener títulos de los recursos más descargados
